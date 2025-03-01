@@ -1,0 +1,182 @@
+<div class="d-flex flex-column min-vh-100">
+  <shared-header></shared-header>
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Choose Your Plan</h2>
+
+    <div class="row justify-content-center">
+      <!-- USER PLANS -->
+      <div *ngIf="isClient" class="col-md-4 mb-4">
+        <div class="card border-primary">
+          <div class="card-header text-center bg-primary text-white">
+            Free Plan
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$0 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ 2 missions per day</li>
+              <li class="list-group-item text-muted">✖ Early event access</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-outline-primary" [disabled]="planType.toLowerCase() === 'free'" (click)="subscribeUser('FREE', 30)">
+                {{ planType.toLowerCase() === 'free' ? 'Current Plan' : 'Choose Free' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isClient" class="col-md-4 mb-4">
+        <div class="card border-success">
+          <div class="card-header text-center bg-success text-white">
+            Premium Plan
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$9.99 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ 4 missions per day</li>
+              <li class="list-group-item">✔ Early event access</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-success" [disabled]="planType.toLowerCase() === 'premium'" (click)="subscribeUser('PREMIUM', 30)">
+                {{ planType.toLowerCase() === 'premium' ? 'Current Plan' : 'Upgrade to Premium' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STARTUP PLANS -->
+      <div *ngIf="isStartup" class="col-md-4 mb-4">
+        <div class="card border-primary">
+          <div class="card-header text-center bg-primary text-white">
+            Startup Free
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$0 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-muted">✔ Product Limit: 5</li>
+              <li class="list-group-item text-muted">✖ SEO Boost</li>
+              <li class="list-group-item text-muted">✖ Premium Challenges</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-outline-primary" [disabled]="planType.toLowerCase() === 'free'" (click)="subscribeUser('FREE', 30)">
+                {{ planType.toLowerCase() === 'free' ? 'Current Plan' : 'Choose Free' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isStartup" class="col-md-4 mb-4">
+        <div class="card border-success">
+          <div class="card-header text-center bg-success text-white">
+            Startup Premium
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$19.99 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ SEO Boost</li>
+              <li class="list-group-item">✔ Premium Challenges</li>
+              <li class="list-group-item">✔ Product Limit: 15</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-success" [disabled]="planType.toLowerCase() === 'premium'" (click)="subscribeUser('PREMIUM', 30)">
+                {{ planType.toLowerCase() === 'premium' ? 'Current Plan' : 'Upgrade to Premium' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isStartup" class="col-md-4 mb-4">
+        <div class="card border-darkblue">
+          <div class="card-header text-center bg-darkblue text-white">
+            Startup Enterprise
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$49.99 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ SEO Boost</li>
+              <li class="list-group-item">✔ Unlimited Challenges</li>
+              <li class="list-group-item">✔ Analytics & Statistics</li>
+              <li class="list-group-item">✔ Direct Support Chat</li>
+              <li class="list-group-item">✔ Unlimited Product Publishing</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-darkblue" [disabled]="planType.toLowerCase() === 'enterprise'" (click)="subscribeUser('ENTERPRISE', 30)">
+                {{ planType.toLowerCase() === 'enterprise' ? 'Current Plan' : 'Upgrade to Enterprise' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPANY PLANS -->
+      <div *ngIf="isCompany" class="col-md-4 mb-4">
+        <div class="card border-primary">
+          <div class="card-header text-center bg-primary text-white">
+            Company Free
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$0 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ 1 challenge</li>
+              <li class="list-group-item text-muted">✖ SEO Boost</li>
+              <li class="list-group-item text-muted">✖ Premium Challenges</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-outline-primary" [disabled]="planType.toLowerCase() === 'free'" (click)="subscribeUser('FREE', 30)">
+                {{ planType.toLowerCase() === 'free' ? 'Current Plan' : 'Choose Free' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isCompany" class="col-md-4 mb-4">
+        <div class="card border-success">
+          <div class="card-header text-center bg-success text-dark">
+            Company Premium
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$29.99 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ 5 Challenges</li>
+              <li class="list-group-item">✔ SEO Boost</li>
+              <li class="list-group-item">✔ Premium Challenges</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-success" [disabled]="planType.toLowerCase() === 'premium'" (click)="subscribeUser('PREMIUM', 30)">
+                {{ planType.toLowerCase() === 'premium' ? 'Current Plan' : 'Upgrade to Premium' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isCompany" class="col-md-4 mb-4">
+        <div class="card border-darkblue">
+          <div class="card-header text-center bg-greenhover text-white">
+            Company Enterprise
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">$79.99 / month</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">✔ Unlimited Challenges</li>
+              <li class="list-group-item">✔ SEO Boost</li>
+              <li class="list-group-item">✔ Enterprise-Only Challenges</li>
+              <li class="list-group-item">✔ Profile Shortcuts</li>
+              <li class="list-group-item">✔ Analytics & Statistics</li>
+            </ul>
+            <div class="text-center mt-3">
+              <button class="btn btn-darkblue" [disabled]="planType.toLowerCase() === 'enterprise'" (click)="subscribeUser('ENTERPRISE', 30)">
+                {{ planType.toLowerCase() === 'enterprise' ? 'Current Plan' : 'Upgrade to Enterprise' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <shared-footer class="bg-light text-center mt-auto"></shared-footer>
+</div>

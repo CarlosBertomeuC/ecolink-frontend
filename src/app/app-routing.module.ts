@@ -52,6 +52,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
   },
   {
+    path: 'subscriptions',
+    loadChildren: () => import('./modules/subscriptions/subscriptions.module').then(m => m.SubscriptionsModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

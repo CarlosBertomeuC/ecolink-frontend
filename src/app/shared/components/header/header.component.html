@@ -11,6 +11,10 @@
       <a *ngIf="!isLogged" href="/auth/login" class="text-light me-2">
         <i class="bi bi-person-circle" style="font-size: 24px;"></i>
       </a>
+      <!-- Icono de suscripciones -->
+      <a *ngIf="isLogged" href="/subscriptions" class="text-light me-2">
+        <i class="bi bi-coin" style="font-size: 24px;"></i>
+      </a>
 
       <!-- Imagen de perfil (si está logueado) -->
       <a *ngIf="isLogged" href="/profile" class="text-light me-2">
@@ -116,6 +120,9 @@
 
     <!-- Vista escritorio -->
     <div class="d-none d-lg-flex align-items-center me-3">
+      <a *ngIf="isLogged" href="/subscriptions" class="me-4 position-relative">
+        <i class="bi bi-coin text-light fs-4"></i>
+      </a>
       <a *ngIf="isLogged" href="/cart" class="me-4 position-relative">
         <i class="bi bi-cart3 text-light fs-4"></i>
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">

@@ -8,11 +8,11 @@ import { AboutUsModule } from './about-us/about-us.module';
 import { HomeModule } from './modules/home/home.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule } from '@angular/forms';
-import { NgxEditorModule, schema } from 'ngx-editor';
+import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +22,7 @@ import { NgxEditorModule, schema } from 'ngx-editor';
     AboutUsModule,
     NgMultiSelectDropDownModule,
     FormsModule,
-    NgxEditorModule
+    NgxEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
