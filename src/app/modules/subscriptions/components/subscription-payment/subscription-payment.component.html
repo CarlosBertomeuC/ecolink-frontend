@@ -1,0 +1,26 @@
+<form (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="cardNumber" class="form-label">Card Number:</label>
+    <input type="text" class="form-control" id="cardNumber" [(ngModel)]="cardNumber" name="cardNumber" required>
+    <div class="invalid-feedback">
+      Please enter a valid card number.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="cardExpiry" class="form-label">Card Expiry:</label>
+    <input type="text" class="form-control" id="cardExpiry" [(ngModel)]="cardExpiry" name="cardExpiry" required>
+    <div class="invalid-feedback">
+      Please enter a valid expiry date.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="cardCVC" class="form-label">CVC:</label>
+    <input type="text" class="form-control" id="cardCVC" [(ngModel)]="cardCVC" name="cardCVC" required>
+    <div class="invalid-feedback">
+      Please enter a valid CVC.
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="isPaying">
+    {{ isPaying ? 'Paying...' : 'Pay' }}
+  </button>
+</form>

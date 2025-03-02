@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { SubscriptionType } from '../models/subscription';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,14 @@ export class SubscriptionService {
 
     return this.http.get<any>(`${this.apiUrl}/user/type`, { withCredentials: true });
   }
-  subscribeUser(type: string, duration: number): Observable<any> {
-    const params = { type, durationDays: duration.toString() };
-    return this.http.post<any>(`${this.apiUrl}/subscribe`, null, { params } );
+  subscribeUser(type: SubscriptionType, duration: number): Observable<any> {
+    const params = new HttpParams()
+      .set('type', type)
+      .set('durationDays', duration.toString());
+    return this.http.post(`${this.apiUrl}/subscribe`, null, { params, withCredentials: true, responseType: 'text' });
   }
 
-  cancelSubscription(userId: number): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/cancel`, null, { 
-      params: { userId } 
-    });
+  cancelSubscription(): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/cancel`, null, { withCredentials: true, responseType: 'text' as 'json' });
   }
 }

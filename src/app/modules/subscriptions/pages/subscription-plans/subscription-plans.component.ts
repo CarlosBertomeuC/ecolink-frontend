@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import * as bootstrap from 'bootstrap';
 import { AuthService } from '../../../../auth/services/AuthService.service';
 import { User } from '../../../../core/models/User';
 import { SubscriptionService } from '../../services/subscription.service';
+import { SubscriptionType } from '../../models/subscription';
 
 @Component({
   selector: 'app-subscription-plans',
@@ -16,6 +18,8 @@ export class SubscriptionPlansComponent {
   isCompany: boolean = false;
   userType: 'client' | 'company' | 'startup' | null = null;
   planType: string = '';
+  showPaymentForm: boolean = false;
+  selectedPlan: string = '';
 
   ngOnInit(): void {
       this.authService.getCurrentUser().subscribe((user: User) => {
@@ -42,14 +46,52 @@ export class SubscriptionPlansComponent {
         }
       );
     }
+
+
     subscribeUser(type: string, duration: number): void {
-      this.subscriptionService.subscribeUser(type, duration).subscribe(
-        (response) => {
-          console.log('Subscription successful:', response);
-          this.planType = type;
+      const enumType = type.toUpperCase() as SubscriptionType;
+  
+      if (!['FREE', 'PREMIUM', 'ENTERPRISE'].includes(enumType)) {
+        console.error('Tipo de suscripción inválido:', type);
+        return;
+      }
+  
+      if (this.showPaymentForm) {
+        this.subscriptionService.subscribeUser(enumType, duration).subscribe(
+          (response) => {
+            console.log('Subscription successful:', response);
+            this.planType = enumType;
+            this.showPaymentForm = false;
+          },
+          error => {
+            console.error('Error suscribing the user', error);
+          }
+        );
+      } else {
+        this.selectedPlan = enumType;
+        this.showPaymentForm = true;
+      }
+    }
+
+
+    showCancelModal(): void {
+      const cancelModalElement = document.getElementById('cancelModal');
+      if (cancelModalElement) {
+        const cancelModal = new bootstrap.Modal(cancelModalElement);
+        cancelModal.show();
+      } else {
+        console.error('Cancel modal element not found');
+      }
+    }
+  
+    confirmCancel(): void {
+      this.subscriptionService.cancelSubscription().subscribe(
+        response => {
+          console.log('Subscription cancelled successfully:', response);
+          window.location.reload();
         },
-        (error) => {
-          console.error('Subscription failed:', error);
+        error => {
+          console.error('Error cancelling subscription:', error);
         }
       );
     }

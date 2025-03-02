@@ -1,4 +1,7 @@
-export interface Subscription {
-    planType: string;
-  }
+export enum SubscriptionType {
+  FREE = 'FREE',
+  PREMIUM = 'PREMIUM',
+  ENTERPRISE = 'ENTERPRISE'
+}
+
   
