@@ -2,12 +2,15 @@
 <div class="d-flex flex-column min-vh-100">
   <div class="container mt-5 flex-grow-1">
     <h2 class="text-center mb-4">Company Challenges</h2>
-    <a
-      routerLink="/company-dashboard/challenges/new"
-      class="btn btn-primary mb-3"
-    >
-      Create New Challenge
-    </a>
+    <div class="text-center mb-3">
+      <button *ngIf="canAddChallenge()" class="btn btn-primary" (click)="addChallenge()">
+        Create New Challenge
+      </button>
+      <button *ngIf="!canAddChallenge()" class="btn btn-primary" (click)="addChallenge()">
+        Premium
+        <i class="bi bi-coin ms-2"></i>
+      </button>
+    </div>
     <div *ngFor="let challenge of challenges" class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">{{ challenge.title }}</h5>

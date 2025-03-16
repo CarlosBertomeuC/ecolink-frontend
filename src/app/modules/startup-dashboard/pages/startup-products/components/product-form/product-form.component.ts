@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StartupProductsService} from '../../../../services/StartupProducts.service';
-import { Category} from '../../../../../startups/models/Category';
-import {AuthService} from '../../../../../../auth/services/AuthService.service';
+import { StartupProductsService } from '../../../../services/StartupProducts.service';
+import { Category } from '../../../../../startups/models/Category';
+import { AuthService } from '../../../../../../auth/services/AuthService.service';
+import { SubscriptionService } from '../../../../../subscriptions/services/subscription.service';
 
 @Component({
   selector: 'app-product-form',
@@ -15,6 +16,8 @@ export class ProductFormComponent implements OnInit {
   isEditing = false;
   imageUrl: string | null = null;
   categories: Category[] = [];
+  planType: string = '';
+  products: any[] = [];
 
   // Configuración del dropdown
   dropdownSettings = {
@@ -34,6 +37,7 @@ export class ProductFormComponent implements OnInit {
     private router: Router,
     private productService: StartupProductsService,
     private authService: AuthService,
+    private subscriptionService: SubscriptionService
   ) {
     this.productForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
@@ -46,12 +50,44 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
+    this.checkSubscription();
+    this.loadProducts();
 
     const productId = this.route.snapshot.paramMap.get('id');
     if (productId) {
       this.isEditing = true;
       this.loadProduct(+productId);
     }
+  }
+
+  checkSubscription(): void {
+    this.subscriptionService.getUserSubscription().subscribe(
+      (response) => {
+        this.planType = response.planType.toLowerCase();
+      },
+      (error) => {
+        console.error('Error fetching subscription', error);
+      }
+    );
+  }
+
+  loadProducts(): void {
+    this.productService.getStartupProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+      },
+      error: (err) => console.error('Error loading products:', err)
+    });
+  }
+
+  canAddProduct(): boolean {
+    if (this.planType === 'free' && this.products.length >= 5) {
+      return false;
+    }
+    if (this.planType === 'premium' && this.products.length >= 15) {
+      return false;
+    }
+    return true;
   }
 
   loadCategories(): void {
@@ -84,7 +120,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.productForm.invalid) {
+    if (this.productForm.invalid || !this.canAddProduct()) {
       this.productForm.markAllAsTouched(); // Esto activa todas las validaciones pendientes
       return;
     }
@@ -122,7 +158,6 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
-
   changeImage(fileInput: HTMLInputElement): void {
     if (!fileInput.files || fileInput.files.length === 0) {
       this.productForm.get('imageUrl')?.setValue(null);
@@ -148,5 +183,9 @@ export class ProductFormComponent implements OnInit {
     }
     categoriesControl?.markAsTouched();
     categoriesControl?.updateValueAndValidity();
+  }
+
+  redirectToSubscriptions(): void {
+    this.router.navigate(['/subscriptions']);
   }
 }

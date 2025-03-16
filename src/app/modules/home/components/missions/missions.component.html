@@ -2,7 +2,7 @@
   <div class="container">
     <h2 class="text-center text-greendark fw-bold mb-3">Ecologic Missions</h2>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-      <div class="col" *ngFor="let mission of missions">
+      <div class="col" *ngFor="let mission of missions; let i = index">
         <div class="card h-100 rounded-3 shadow-sm">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
@@ -12,10 +12,11 @@
             <p class="card-text text-text mb-2">{{ mission.description }}</p>
             <p class="card-text text-secondary">Type: {{ mission.type === 'DAILY' ? 'Daily' : 'Weekly' }}</p>
             <button
-              class="btn text-greendark rounded-2 px-4 py-2 mt-3"
-              (click)="completeMission(mission)"
+              class="btn text-greendark rounded-2 px-4 py-2 mt-3 d-flex align-items-center justify-content-center"
+              (click)="completeMission(mission, i)"
               [disabled]="mission.completed">
-              {{ mission.completed ? 'Completed' : 'Complete Mission' }}
+              {{ planType.toLowerCase() !== 'premium' && i >= 2 ? 'Premium' : (mission.completed ? 'Completed' : 'Complete Mission') }}
+              <i *ngIf="planType.toLowerCase() !== 'premium' && i >= 2" class="bi bi-coin ms-2"></i>
             </button>
           </div>
         </div>

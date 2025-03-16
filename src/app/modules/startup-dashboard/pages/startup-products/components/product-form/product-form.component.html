@@ -78,8 +78,11 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-greendark mt-3" [disabled]="productForm.invalid || productForm.pending">
+    <button type="submit" class="btn btn-greendark mt-3" [disabled]="productForm.invalid || productForm.pending || !canAddProduct()">
       {{ isEditing ? 'Update product' : 'Add product' }}
     </button>
+    <div *ngIf="!canAddProduct()" class="text-warning mt-2">
+      You have reached the limit of products for your subscription plan. <a routerLink="/subscriptions">Upgrade your plan</a>.
+    </div>
   </form>
 </div>
