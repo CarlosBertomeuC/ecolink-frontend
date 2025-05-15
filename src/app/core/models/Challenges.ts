@@ -10,4 +10,5 @@ export interface Challenge {
   odsList: Ods[];
   timeLeft: number;
   numberOfParticipans: number;
+  premium: boolean;
 }

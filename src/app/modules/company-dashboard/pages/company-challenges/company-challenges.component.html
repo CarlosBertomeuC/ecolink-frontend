@@ -3,10 +3,18 @@
   <div class="container mt-5 flex-grow-1">
     <h2 class="text-center mb-4">Company Challenges</h2>
     <div class="text-center mb-3">
-      <button *ngIf="canAddChallenge()" class="btn btn-primary" (click)="addChallenge()">
+      <button
+        *ngIf="canAddChallenge()"
+        class="btn btn-primary"
+        (click)="addChallenge()"
+      >
         Create New Challenge
       </button>
-      <button *ngIf="!canAddChallenge()" class="btn btn-primary" (click)="addChallenge()">
+      <button
+        *ngIf="!canAddChallenge()"
+        class="btn btn-primary"
+        (click)="addChallenge()"
+      >
         Premium
         <i class="bi bi-coin ms-2"></i>
       </button>
@@ -20,9 +28,11 @@
         <p class="card-text">
           End Date: {{ challenge.endDate | date : "dd/MM/yyyy" }}
         </p>
-        <p class="card-text">ODS List: 
+        <p class="card-text">
+          ODS List:
           <span *ngFor="let ods of challenge.odsList; let i = index">
-            {{ ods.name }}<span *ngIf="i < challenge.odsList.length - 1">, </span>
+            {{ ods.name
+            }}<span *ngIf="i < challenge.odsList.length - 1">, </span>
           </span>
         </p>
         <p class="card-text">
@@ -35,15 +45,26 @@
         >
           Edit
         </a>
-        <button (click)="deleteChallenge(challenge.id)" class="btn btn-danger ms-4 me-4">
+        <button
+          (click)="deleteChallenge(challenge.id)"
+          class="btn btn-danger ms-4 me-4"
+        >
           Delete
         </button>
         <a
-          [routerLink]="['/company-dashboard/challenges/proposal', challenge.id]"
+          [routerLink]="[
+            '/company-dashboard/challenges/proposal',
+            challenge.id
+          ]"
           class="btn btn-info"
         >
           See Proposals
         </a>
+
+        <button (click)="upgradeChallenge(challenge.id)" [disabled]="loading" class="btn btn-greendark ms-4 me-4">
+          {{ challenge.premium ? "Cancel Premium" : "Upgrade to Premium" }}
+        </button>
+
       </div>
     </div>
   </div>

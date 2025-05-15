@@ -44,4 +44,7 @@ export class CompanyChallengeService {
   deleteChallenge(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`, { withCredentials: true });
   }
+  upgradeChallenge(id: number): Observable<any> {
+  return this.http.put(`${this.baseUrl}/upgrade/${id}`, {}, { withCredentials: true });
+}
 }

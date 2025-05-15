@@ -14,4 +14,5 @@ export interface Challenge {
   benefits?: string[];
   numberOfParticipans: number;
   odsList: Ods[];
+  premium: boolean;
 }

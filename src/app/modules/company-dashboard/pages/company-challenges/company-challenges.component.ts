@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class CompanyChallengesComponent implements OnInit {
   challenges: Challenge[] = [];
   planType: string = '';
+  loading: boolean = false;
 
   constructor(
     private challengeService: CompanyChallengeService,
@@ -38,6 +39,7 @@ export class CompanyChallengesComponent implements OnInit {
   getChallenges(): void {
     this.challengeService.getCompanyChallenges().subscribe((challenges: Challenge[]) => {
       this.challenges = challenges;
+      console.log('Actualizado:', this.challenges.map(c => ({ id: c.id, premium: c.premium })));
     });
   }
 
@@ -64,4 +66,13 @@ export class CompanyChallengesComponent implements OnInit {
       this.getChallenges();
     });
   }
+  upgradeChallenge(id: number): void {
+  this.loading = true;
+  this.challengeService.upgradeChallenge(id).subscribe(() => {
+    this.loading = false;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/company-dashboard/challenges']);
+    });
+  }, () => this.loading = false);
+}
 }
