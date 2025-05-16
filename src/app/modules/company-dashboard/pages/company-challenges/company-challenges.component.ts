@@ -3,6 +3,7 @@ import { CompanyChallengeService } from '../../services/company-challenge.servic
 import { Challenge } from '../../../../core/models/Challenge';
 import { SubscriptionService } from '../../../subscriptions/services/subscription.service';
 import { Router } from '@angular/router';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-company-challenges',
@@ -13,6 +14,7 @@ export class CompanyChallengesComponent implements OnInit {
   challenges: Challenge[] = [];
   planType: string = '';
   loading: boolean = false;
+  selectedChallenge: Challenge | null = null;
 
   constructor(
     private challengeService: CompanyChallengeService,
@@ -37,9 +39,11 @@ export class CompanyChallengesComponent implements OnInit {
   }
 
   getChallenges(): void {
-    this.challengeService.getCompanyChallenges().subscribe((challenges: Challenge[]) => {
-      this.challenges = challenges;
-    });
+    this.challengeService
+      .getCompanyChallenges()
+      .subscribe((challenges: Challenge[]) => {
+        this.challenges = challenges;
+      });
   }
 
   canAddChallenge(): boolean {
@@ -56,25 +60,39 @@ export class CompanyChallengesComponent implements OnInit {
     if (this.canAddChallenge()) {
       this.router.navigate(['/company-dashboard/challenges/new']);
     } else {
-      this.goToSubscriptions()
+      this.goToSubscriptions();
     }
   }
   goToSubscriptions(): void {
-  this.router.navigate(['/subscriptions']);
-}
+    this.router.navigate(['/subscriptions']);
+  }
+  openConfirmationModal(challenge: Challenge): void {
+    this.selectedChallenge = challenge;
+  }
+  confirmUpgrade(): void {
+    if (!this.selectedChallenge) return;
+
+    this.loading = true;
+
+    this.challengeService.upgradeChallenge(this.selectedChallenge.id).subscribe(
+      () => {
+        this.loading = false;
+        const modalEl = document.getElementById('confirmUpgradeModal');
+        if (modalEl) {
+          const modalInstance = bootstrap.Modal.getInstance(modalEl);
+          modalInstance?.hide();
+        }
+        this.getChallenges();
+      },
+      () => {
+        this.loading = false;
+      }
+    );
+  }
 
   deleteChallenge(id: number): void {
     this.challengeService.deleteChallenge(id).subscribe(() => {
       this.getChallenges();
     });
   }
-  upgradeChallenge(id: number): void {
-  this.loading = true;
-  this.challengeService.upgradeChallenge(id).subscribe(() => {
-    this.loading = false;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/company-dashboard/challenges']);
-    });
-  }, () => this.loading = false);
-}
 }
