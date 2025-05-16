@@ -39,7 +39,6 @@ export class CompanyChallengesComponent implements OnInit {
   getChallenges(): void {
     this.challengeService.getCompanyChallenges().subscribe((challenges: Challenge[]) => {
       this.challenges = challenges;
-      console.log('Actualizado:', this.challenges.map(c => ({ id: c.id, premium: c.premium })));
     });
   }
 
@@ -57,9 +56,12 @@ export class CompanyChallengesComponent implements OnInit {
     if (this.canAddChallenge()) {
       this.router.navigate(['/company-dashboard/challenges/new']);
     } else {
-      this.router.navigate(['/subscriptions']);
+      this.goToSubscriptions()
     }
   }
+  goToSubscriptions(): void {
+  this.router.navigate(['/subscriptions']);
+}
 
   deleteChallenge(id: number): void {
     this.challengeService.deleteChallenge(id).subscribe(() => {

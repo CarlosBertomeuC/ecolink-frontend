@@ -16,7 +16,6 @@ export class SubscriptionService {
   }
 
   getUserSubscription(): Observable<any> {
-    console.log(this.apiUrl);
 
     return this.http.get<any>(`${this.apiUrl}/user/type`, { withCredentials: true });
   }

@@ -32,12 +32,10 @@ export class CompanyChallengeService {
   }
 
   createChallenge(challenge: any): Observable<ChallengeCompany> {
-    console.log(challenge);
     return this.http.post<ChallengeCompany>(this.baseUrl, challenge, { withCredentials: true });
   }
 
   updateChallenge(id: string, challenge:any): Observable<ChallengeCompany> {
-    console.log( 'update:', challenge);
    return this.http.put<ChallengeCompany>(`${this.baseUrl}/${id}`, challenge, { withCredentials: true });
   }
 

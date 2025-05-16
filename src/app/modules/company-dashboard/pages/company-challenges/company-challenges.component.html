@@ -14,14 +14,15 @@
         *ngIf="!canAddChallenge()"
         class="btn btn-primary"
         (click)="addChallenge()"
+        title="Increase your challenge limit by upgrading to Premium."
       >
         Premium
-        <i class="bi bi-coin ms-2"></i>
+        <i class="bi bi-coin ms-1"></i>
       </button>
     </div>
     <div *ngFor="let challenge of challenges" class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title">{{ challenge.title }}</h5>
+        <h5 class="card-title">{{ challenge.title }} <i *ngIf="challenge.premium === true" class="bi bi-coin ms-1"></i></h5>
         <p class="card-text">{{ challenge.shortDescription }}</p>
         <p class="card-text">{{ challenge.description }}</p>
         <p class="card-text">Budget: {{ challenge.budget }} €</p>
@@ -61,12 +62,29 @@
           See Proposals
         </a>
 
-        <button (click)="upgradeChallenge(challenge.id)" [disabled]="loading" class="btn btn-greendark ms-4 me-4">
-          {{ challenge.premium ? "Cancel Premium" : "Upgrade to Premium" }}
+        <!-- Si es cliente -->
+        <button
+          *ngIf="planType === 'free'"
+          (click)="goToSubscriptions()"
+          class="btn btn-greendark ms-4 me-4"
+          title="Upgrade to Premium to unlock your challenge"
+        >
+          Get Premium
+          <i class="bi bi-coin ms-1"></i>
         </button>
 
+        <!-- Si NO es cliente -->
+        <button
+          *ngIf="planType !== 'free'"
+          (click)="upgradeChallenge(challenge.id)"
+          [disabled]="loading"
+          class="btn btn-greendark ms-4 me-4"
+        >
+          {{ challenge.premium ? "Cancel Premium" : "Upgrade to Premium" }}
+        </button>
       </div>
     </div>
   </div>
   <shared-footer></shared-footer>
 </div>
+
