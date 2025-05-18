@@ -1,27 +1,59 @@
 <div class="card border-0 card-fixed">
   <div class="card-body">
-    <h5 class="card-title">{{ challenge.title }}</h5>
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">{{ challenge.title }}</h5>
+      <p *ngIf="challenge.premium == true" class="badge bg-warning text-dark">
+        Premium
+      </p>
+    </div>
     <p class="text-grey">Published by: {{ challenge.companyName }}</p>
-    <p class="card-text">{{challenge.description}}</p>
+    <p class="card-text">{{ challenge.description }}</p>
     <div class="d-flex justify-content-between mb-1">
       <div>
         <i class="bi bi-cash text-grey me-1"></i>
-        <span class="text-grey">{{ challenge.budget | number: '1.0-0' }} €</span>
+        <span class="text-grey"
+          >{{ challenge.budget | number : "1.0-0" }} €</span
+        >
       </div>
       <div>
         <i class="bi bi-calendar-event text-grey me-1"></i>
-        <span class="text-grey">End: {{ challenge.endDate | date: 'dd/MM/yyyy' }}</span>
+        <span class="text-grey"
+          >End: {{ challenge.endDate | date : "dd/MM/yyyy" }}</span
+        >
       </div>
     </div>
     <div class="d-flex justify-content-between">
       <div>
         <i class="bi bi-people text-grey me-1"></i>
-        <span class="text-grey">{{ challenge.numberOfParticipans }} participants</span>
+        <span class="text-grey"
+          >{{ challenge.numberOfParticipans }} participants</span
+        >
       </div>
       <div>
-        <img width="35px" height="35px" class="rounded-circle me-1" [src]="ods.image" [alt]="ods.name" *ngFor="let ods of challenge.odsList"/>
+        <img
+          width="35px"
+          height="35px"
+          class="rounded-circle me-1"
+          [src]="ods.image"
+          [alt]="ods.name"
+          *ngFor="let ods of challenge.odsList"
+        />
       </div>
     </div>
-    <a [routerLink]="['/challenges', challenge.id]" class="d-flex justify-content-center btn btn-primary text-add1 fw-semibold rounded-0 mt-3">See details</a>
+    <a
+      *ngIf="!challenge.premium || planType !== 'free'"
+      [routerLink]="['/challenges', challenge.id]"
+      class="d-flex justify-content-center btn btn-primary text-add1 fw-semibold rounded-0 mt-3"
+    >
+      See details
+    </a>
+
+    <a
+      *ngIf="challenge.premium && planType === 'free'"
+      (click)="goToSubscriptions()"
+      class="d-flex justify-content-center btn btn-warning text-dark fw-semibold rounded-0 mt-3"
+    >
+      Upgrade to Premium <i class="bi bi-coin ms-2"></i>
+  </a>
   </div>
 </div>
