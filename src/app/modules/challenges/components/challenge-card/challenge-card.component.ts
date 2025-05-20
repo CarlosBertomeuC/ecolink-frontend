@@ -30,15 +30,6 @@ export class ChallengeCardComponent implements OnInit {
       }
     );
   }
-  
-
-  isFreePlan(): boolean {
-    return this.planType === 'free';
-  }
-
-  isPremiumPlan(): boolean {
-    return this.planType === 'premium';
-  }
   goToSubscriptions(): void {
   this.router.navigate(['/subscriptions']);
   }
