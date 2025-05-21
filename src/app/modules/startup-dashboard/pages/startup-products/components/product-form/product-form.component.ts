@@ -89,6 +89,9 @@ export class ProductFormComponent implements OnInit {
     }
     return true;
   }
+  goToSubscriptions(): void {
+  this.router.navigate(['/subscriptions']);
+}
 
   loadCategories(): void {
     this.productService.getCategories().subscribe({
